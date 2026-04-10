@@ -1,0 +1,729 @@
+{
+    "templates": [
+        {
+            "id": "tpl_decision_tree",
+            "name": "决策树",
+            "description": "用于多选项决策分析，层级化展示决策路径",
+            "type": "tree",
+            "icon": "git-branch"
+        },
+        {
+            "id": "tpl_strategy_map",
+            "name": "战略地图",
+            "description": "展示企业战略目标与关键指标的关联关系",
+            "type": "concept",
+            "icon": "map"
+        },
+        {
+            "id": "tpl_mental_model",
+            "name": "用户心智模型",
+            "description": "分析用户认知结构与行为路径",
+            "type": "concept",
+            "icon": "brain"
+        },
+        {
+            "id": "tpl_causal_diagnosis",
+            "name": "问题诊断因果图",
+            "description": "识别问题根因与影响链路",
+            "type": "causal",
+            "icon": "search"
+        },
+        {
+            "id": "tpl_flow_process",
+            "name": "标准流程图",
+            "description": "展示业务流程与步骤顺序",
+            "type": "flowchart",
+            "icon": "workflow"
+        }
+    ],
+    "graphs": {
+        "flowchart": {
+            "id": "g_flowchart_demo",
+            "type": "flowchart",
+            "name": "用户注册流程",
+            "description": "展示用户从访问到注册成功的完整流程",
+            "dimensions": [
+                "转化率",
+                "时间成本",
+                "用户满意度"
+            ],
+            "activeDimension": "转化率",
+            "nodes": [
+                {
+                    "id": "n1",
+                    "name": "用户访问",
+                    "x": 300,
+                    "y": 80,
+                    "shape": "roundRect",
+                    "category": "start",
+                    "data": {
+                        "转化率": 100,
+                        "时间成本": 0,
+                        "用户满意度": 95
+                    },
+                    "weight": 100,
+                    "description": "用户首次访问平台落地页"
+                },
+                {
+                    "id": "n2",
+                    "name": "浏览页面",
+                    "x": 300,
+                    "y": 200,
+                    "shape": "roundRect",
+                    "category": "process",
+                    "data": {
+                        "转化率": 85,
+                        "时间成本": 30,
+                        "用户满意度": 78
+                    },
+                    "weight": 85,
+                    "description": "用户浏览产品介绍页面"
+                },
+                {
+                    "id": "n3",
+                    "name": "点击注册",
+                    "x": 300,
+                    "y": 320,
+                    "shape": "diamond",
+                    "category": "decision",
+                    "data": {
+                        "转化率": 60,
+                        "时间成本": 5,
+                        "用户满意度": 72
+                    },
+                    "weight": 60,
+                    "description": "用户决定点击注册按钮"
+                },
+                {
+                    "id": "n4",
+                    "name": "填写信息",
+                    "x": 150,
+                    "y": 450,
+                    "shape": "roundRect",
+                    "category": "process",
+                    "data": {
+                        "转化率": 45,
+                        "时间成本": 120,
+                        "用户满意度": 65
+                    },
+                    "weight": 45,
+                    "description": "用户填写注册表单"
+                },
+                {
+                    "id": "n5",
+                    "name": "放弃注册",
+                    "x": 500,
+                    "y": 450,
+                    "shape": "roundRect",
+                    "category": "end",
+                    "data": {
+                        "转化率": 15,
+                        "时间成本": 50,
+                        "用户满意度": 30
+                    },
+                    "weight": 15,
+                    "description": "用户中途放弃注册"
+                },
+                {
+                    "id": "n6",
+                    "name": "邮件验证",
+                    "x": 150,
+                    "y": 570,
+                    "shape": "roundRect",
+                    "category": "process",
+                    "data": {
+                        "转化率": 40,
+                        "时间成本": 60,
+                        "用户满意度": 60
+                    },
+                    "weight": 40,
+                    "description": "系统发送并验证邮箱"
+                },
+                {
+                    "id": "n7",
+                    "name": "注册成功",
+                    "x": 150,
+                    "y": 690,
+                    "shape": "roundRect",
+                    "category": "end",
+                    "data": {
+                        "转化率": 38,
+                        "时间成本": 10,
+                        "用户满意度": 90
+                    },
+                    "weight": 38,
+                    "description": "用户成功完成注册"
+                }
+            ],
+            "edges": [
+                {
+                    "id": "e1",
+                    "source": "n1",
+                    "target": "n2",
+                    "label": "",
+                    "weight": 1.0
+                },
+                {
+                    "id": "e2",
+                    "source": "n2",
+                    "target": "n3",
+                    "label": "",
+                    "weight": 0.85
+                },
+                {
+                    "id": "e3",
+                    "source": "n3",
+                    "target": "n4",
+                    "label": "是",
+                    "weight": 0.75
+                },
+                {
+                    "id": "e4",
+                    "source": "n3",
+                    "target": "n5",
+                    "label": "否",
+                    "weight": 0.25
+                },
+                {
+                    "id": "e5",
+                    "source": "n4",
+                    "target": "n6",
+                    "label": "",
+                    "weight": 0.90
+                },
+                {
+                    "id": "e6",
+                    "source": "n6",
+                    "target": "n7",
+                    "label": "",
+                    "weight": 0.95
+                }
+            ],
+            "analysisRules": {
+                "algorithm": "weighted_path",
+                "weightField": "weight",
+                "aggregation": "multiply"
+            }
+        },
+        "tree": {
+            "id": "g_tree_demo",
+            "type": "tree",
+            "name": "产品功能决策树",
+            "description": "分析新功能优先级的多维度决策路径",
+            "dimensions": [
+                "ROI",
+                "开发成本",
+                "用户价值"
+            ],
+            "activeDimension": "ROI",
+            "nodes": [
+                {
+                    "id": "root",
+                    "name": "产品规划Q2",
+                    "x": 400,
+                    "y": 40,
+                    "category": "root",
+                    "data": {
+                        "ROI": 100,
+                        "开发成本": 50,
+                        "用户价值": 90
+                    },
+                    "weight": 100,
+                    "children": [
+                        "n_a",
+                        "n_b"
+                    ],
+                    "description": "Q2产品路线图规划"
+                },
+                {
+                    "id": "n_a",
+                    "name": "核心功能",
+                    "x": 200,
+                    "y": 160,
+                    "category": "branch",
+                    "data": {
+                        "ROI": 85,
+                        "开发成本": 70,
+                        "用户价值": 95
+                    },
+                    "weight": 85,
+                    "children": [
+                        "n_a1",
+                        "n_a2"
+                    ],
+                    "description": "提升核心功能稳定性与体验"
+                },
+                {
+                    "id": "n_b",
+                    "name": "增长功能",
+                    "x": 600,
+                    "y": 160,
+                    "category": "branch",
+                    "data": {
+                        "ROI": 70,
+                        "开发成本": 40,
+                        "用户价值": 75
+                    },
+                    "weight": 70,
+                    "children": [
+                        "n_b1",
+                        "n_b2"
+                    ],
+                    "description": "拓展增长渠道与用户获取"
+                },
+                {
+                    "id": "n_a1",
+                    "name": "性能优化",
+                    "x": 100,
+                    "y": 280,
+                    "category": "leaf",
+                    "data": {
+                        "ROI": 80,
+                        "开发成本": 60,
+                        "用户价值": 88
+                    },
+                    "weight": 80,
+                    "children": [],
+                    "description": "提升系统响应速度"
+                },
+                {
+                    "id": "n_a2",
+                    "name": "UI重设计",
+                    "x": 300,
+                    "y": 280,
+                    "category": "leaf",
+                    "data": {
+                        "ROI": 75,
+                        "开发成本": 90,
+                        "用户价值": 92
+                    },
+                    "weight": 75,
+                    "children": [],
+                    "description": "全面重构用户界面"
+                },
+                {
+                    "id": "n_b1",
+                    "name": "推荐系统",
+                    "x": 500,
+                    "y": 280,
+                    "category": "leaf",
+                    "data": {
+                        "ROI": 88,
+                        "开发成本": 80,
+                        "用户价值": 85
+                    },
+                    "weight": 88,
+                    "children": [],
+                    "description": "智能内容推荐算法"
+                },
+                {
+                    "id": "n_b2",
+                    "name": "社交分享",
+                    "x": 700,
+                    "y": 280,
+                    "category": "leaf",
+                    "data": {
+                        "ROI": 60,
+                        "开发成本": 25,
+                        "用户价值": 65
+                    },
+                    "weight": 60,
+                    "children": [],
+                    "description": "一键社交平台分享"
+                }
+            ],
+            "edges": [
+                {
+                    "id": "e1",
+                    "source": "root",
+                    "target": "n_a",
+                    "label": "",
+                    "weight": 1.0
+                },
+                {
+                    "id": "e2",
+                    "source": "root",
+                    "target": "n_b",
+                    "label": "",
+                    "weight": 1.0
+                },
+                {
+                    "id": "e3",
+                    "source": "n_a",
+                    "target": "n_a1",
+                    "label": "",
+                    "weight": 0.85
+                },
+                {
+                    "id": "e4",
+                    "source": "n_a",
+                    "target": "n_a2",
+                    "label": "",
+                    "weight": 0.85
+                },
+                {
+                    "id": "e5",
+                    "source": "n_b",
+                    "target": "n_b1",
+                    "label": "",
+                    "weight": 0.70
+                },
+                {
+                    "id": "e6",
+                    "source": "n_b",
+                    "target": "n_b2",
+                    "label": "",
+                    "weight": 0.70
+                }
+            ],
+            "analysisRules": {
+                "algorithm": "weighted_path",
+                "weightField": "weight",
+                "aggregation": "multiply"
+            }
+        },
+        "causal": {
+            "id": "g_causal_demo",
+            "type": "causal",
+            "name": "用户流失因果分析",
+            "description": "识别导致用户流失的根本原因与传导路径",
+            "dimensions": [
+                "影响力",
+                "可控性",
+                "紧迫性"
+            ],
+            "activeDimension": "影响力",
+            "nodes": [
+                {
+                    "id": "c_root",
+                    "name": "用户流失率上升",
+                    "x": 500,
+                    "y": 300,
+                    "category": "effect",
+                    "data": {
+                        "影响力": 100,
+                        "可控性": 30,
+                        "紧迫性": 95
+                    },
+                    "weight": 100,
+                    "description": "月活用户下降15%"
+                },
+                {
+                    "id": "c1",
+                    "name": "产品体验差",
+                    "x": 280,
+                    "y": 180,
+                    "category": "cause",
+                    "data": {
+                        "影响力": 75,
+                        "可控性": 80,
+                        "紧迫性": 85
+                    },
+                    "weight": 75,
+                    "description": "用户操作路径复杂，功能难以发现"
+                },
+                {
+                    "id": "c2",
+                    "name": "竞品更有吸引力",
+                    "x": 720,
+                    "y": 180,
+                    "category": "cause",
+                    "data": {
+                        "影响力": 60,
+                        "可控性": 40,
+                        "紧迫性": 70
+                    },
+                    "weight": 60,
+                    "description": "竞争对手推出更优质功能"
+                },
+                {
+                    "id": "c3",
+                    "name": "价格策略不合理",
+                    "x": 500,
+                    "y": 100,
+                    "category": "cause",
+                    "data": {
+                        "影响力": 50,
+                        "可控性": 90,
+                        "紧迫性": 60
+                    },
+                    "weight": 50,
+                    "description": "付费门槛过高，性价比低"
+                },
+                {
+                    "id": "c1_1",
+                    "name": "UI设计混乱",
+                    "x": 120,
+                    "y": 80,
+                    "category": "root_cause",
+                    "data": {
+                        "影响力": 65,
+                        "可控性": 85,
+                        "紧迫性": 80
+                    },
+                    "weight": 65,
+                    "description": "页面布局不符合用户认知习惯"
+                },
+                {
+                    "id": "c1_2",
+                    "name": "功能响应慢",
+                    "x": 280,
+                    "y": 50,
+                    "category": "root_cause",
+                    "data": {
+                        "影响力": 70,
+                        "可控性": 75,
+                        "紧迫性": 90
+                    },
+                    "weight": 70,
+                    "description": "核心操作平均响应时间>3秒"
+                },
+                {
+                    "id": "c2_1",
+                    "name": "创新功能不足",
+                    "x": 680,
+                    "y": 60,
+                    "category": "root_cause",
+                    "data": {
+                        "影响力": 55,
+                        "可控性": 70,
+                        "紧迫性": 65
+                    },
+                    "weight": 55,
+                    "description": "产品迭代速度落后于市场"
+                }
+            ],
+            "edges": [
+                {
+                    "id": "e1",
+                    "source": "c1",
+                    "target": "c_root",
+                    "label": "导致",
+                    "weight": 0.75
+                },
+                {
+                    "id": "e2",
+                    "source": "c2",
+                    "target": "c_root",
+                    "label": "影响",
+                    "weight": 0.60
+                },
+                {
+                    "id": "e3",
+                    "source": "c3",
+                    "target": "c_root",
+                    "label": "加速",
+                    "weight": 0.50
+                },
+                {
+                    "id": "e4",
+                    "source": "c1_1",
+                    "target": "c1",
+                    "label": "引起",
+                    "weight": 0.65
+                },
+                {
+                    "id": "e5",
+                    "source": "c1_2",
+                    "target": "c1",
+                    "label": "加剧",
+                    "weight": 0.70
+                },
+                {
+                    "id": "e6",
+                    "source": "c2_1",
+                    "target": "c2",
+                    "label": "体现",
+                    "weight": 0.55
+                }
+            ],
+            "analysisRules": {
+                "algorithm": "weighted_path",
+                "weightField": "weight",
+                "aggregation": "multiply"
+            }
+        },
+        "concept": {
+            "id": "g_concept_demo",
+            "type": "concept",
+            "name": "数字营销知识图谱",
+            "description": "展示数字营销核心概念及其关联关系",
+            "dimensions": [
+                "重要性",
+                "成熟度",
+                "投入产出比"
+            ],
+            "activeDimension": "重要性",
+            "nodes": [
+                {
+                    "id": "m1",
+                    "name": "数字营销",
+                    "x": 400,
+                    "y": 300,
+                    "category": "core",
+                    "data": {
+                        "重要性": 100,
+                        "成熟度": 90,
+                        "投入产出比": 85
+                    },
+                    "weight": 100,
+                    "description": "利用数字渠道进行品牌推广和用户获取"
+                },
+                {
+                    "id": "m2",
+                    "name": "SEO",
+                    "x": 180,
+                    "y": 150,
+                    "category": "method",
+                    "data": {
+                        "重要性": 85,
+                        "成熟度": 95,
+                        "投入产出比": 90
+                    },
+                    "weight": 85,
+                    "description": "搜索引擎优化，提升自然搜索排名"
+                },
+                {
+                    "id": "m3",
+                    "name": "社交媒体",
+                    "x": 620,
+                    "y": 150,
+                    "category": "method",
+                    "data": {
+                        "重要性": 90,
+                        "成熟度": 85,
+                        "投入产出比": 75
+                    },
+                    "weight": 90,
+                    "description": "微信、微博、抖音等平台运营"
+                },
+                {
+                    "id": "m4",
+                    "name": "内容营销",
+                    "x": 400,
+                    "y": 100,
+                    "category": "method",
+                    "data": {
+                        "重要性": 88,
+                        "成熟度": 80,
+                        "投入产出比": 88
+                    },
+                    "weight": 88,
+                    "description": "创作高价值内容吸引目标用户"
+                },
+                {
+                    "id": "m5",
+                    "name": "数据分析",
+                    "x": 180,
+                    "y": 450,
+                    "category": "tool",
+                    "data": {
+                        "重要性": 92,
+                        "成熟度": 88,
+                        "投入产出比": 95
+                    },
+                    "weight": 92,
+                    "description": "用数据驱动营销决策优化"
+                },
+                {
+                    "id": "m6",
+                    "name": "付费广告",
+                    "x": 620,
+                    "y": 450,
+                    "category": "method",
+                    "data": {
+                        "重要性": 78,
+                        "成熟度": 92,
+                        "投入产出比": 70
+                    },
+                    "weight": 78,
+                    "description": "SEM、信息流广告投放"
+                },
+                {
+                    "id": "m7",
+                    "name": "用户留存",
+                    "x": 400,
+                    "y": 500,
+                    "category": "goal",
+                    "data": {
+                        "重要性": 95,
+                        "成熟度": 75,
+                        "投入产出比": 92
+                    },
+                    "weight": 95,
+                    "description": "提升用户粘性与长期价值"
+                }
+            ],
+            "edges": [
+                {
+                    "id": "e1",
+                    "source": "m1",
+                    "target": "m2",
+                    "label": "包含",
+                    "weight": 0.85
+                },
+                {
+                    "id": "e2",
+                    "source": "m1",
+                    "target": "m3",
+                    "label": "包含",
+                    "weight": 0.90
+                },
+                {
+                    "id": "e3",
+                    "source": "m1",
+                    "target": "m4",
+                    "label": "依赖",
+                    "weight": 0.88
+                },
+                {
+                    "id": "e4",
+                    "source": "m5",
+                    "target": "m1",
+                    "label": "支撑",
+                    "weight": 0.92
+                },
+                {
+                    "id": "e5",
+                    "source": "m1",
+                    "target": "m6",
+                    "label": "包含",
+                    "weight": 0.78
+                },
+                {
+                    "id": "e6",
+                    "source": "m2",
+                    "target": "m4",
+                    "label": "协同",
+                    "weight": 0.80
+                },
+                {
+                    "id": "e7",
+                    "source": "m3",
+                    "target": "m4",
+                    "label": "协同",
+                    "weight": 0.75
+                },
+                {
+                    "id": "e8",
+                    "source": "m1",
+                    "target": "m7",
+                    "label": "目标",
+                    "weight": 0.95
+                },
+                {
+                    "id": "e9",
+                    "source": "m5",
+                    "target": "m7",
+                    "label": "驱动",
+                    "weight": 0.88
+                }
+            ],
+            "analysisRules": {
+                "algorithm": "weighted_path",
+                "weightField": "weight",
+                "aggregation": "multiply"
+            }
+        }
+    }
+}
